@@ -1,0 +1,16 @@
+{
+	"name": "process-cards",
+	"version": "1.0.0",
+	"description": "",
+	"main": "process-cards.js",
+	"scripts": {
+		"start": "node process-cards.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"jimp": "^0.14.0",
+		"unzipper": "^0.10.11"
+	}
+}

@@ -1,0 +1,194 @@
+//* Sections can be broken out into SCSS partials as needed
+// ===================================
+// VARIABLES
+// ===================================
+$primary-color: #e5e5e5;
+$primary-bg-color: #29242a;
+$bronze-accent: #916042;
+
+//===================
+// CSS RESET
+//===================
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  // This defines what 1rem is
+  font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
+}
+
+body {
+  color: $primary-color;
+  background-color: $primary-bg-color;
+}
+
+a:link,
+a:visited {
+  color: $primary-color;
+  text-decoration: none;
+}
+
+//===================
+// BREAKPOINTS
+//===================
+// 840px, 1024px, 1400px
+$breakpoints-up: (
+  'medium': '52.5em',
+  'large': '64em',
+  'xlarge': '87.5em',
+);
+
+// 639px, 1023px, 1399px
+$breakpoints-down: (
+  'small': '52.4375em',
+  'medium': '63.9375em',
+  'large': '87.4375em',
+);
+
+@mixin breakpoint-up($size) {
+  @media (min-width: map-get($map: $breakpoints-up, $key: $size)) {
+    @content;
+  }
+}
+
+@mixin breakpoint-down($size) {
+  @media (max-width: map-get($map: $breakpoints-down, $key: $size)) {
+    @content;
+  }
+}
+
+//===================
+// LAYOUT
+//===================
+
+.layout {
+  display: grid;
+  grid-template-rows: 85vh 15vh;
+
+  &__lists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+
+    @include breakpoint-up(medium) {
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: flex-start;
+
+      overflow: hidden;
+    }
+  }
+
+  &__filters {
+    height: 100%;
+    border: 2px solid orange;
+
+    .row {
+      height: 50%;
+      display: flex;
+
+      .cost-filter {
+        cursor: pointer;
+        border: 1px solid green;
+        flex-grow: 7;
+
+        transition: background-color 0.1s ease-in-out;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      .region-filter {
+        cursor: pointer;
+
+        border: 1px solid green;
+        flex-grow: 9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transition: background-color 0.1s ease-in-out;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+  }
+}
+
+//===================
+// CARD LIST
+//===================
+.card-list {
+  height: 100%;
+  // overflow: scroll;
+
+  &__header {
+    padding-bottom: 1rem;
+    margin: 1rem;
+    border-bottom: 2px solid $bronze-accent;
+    text-align: center;
+  }
+
+  &__cards {
+    display: block;
+    max-height: 90%;
+    overflow-y: auto;
+  }
+}
+
+//===================
+// CARD LIST ITEM
+//===================
+.card-list-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  width: 25rem;
+  height: 4.5rem;
+  margin: 1rem 1.5rem;
+  padding: 1rem 1rem;
+  border-radius: 3px;
+
+  color: #ddd;
+  font-weight: 500;
+  background-color: #666; // Fallback color
+
+  box-shadow: 3px 3px 6px #111;
+
+  &__cost {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    margin-right: 1rem;
+    border: 1px solid $bronze-accent;
+    border-radius: 100%;
+    font-size: 1.4rem;
+    box-shadow: 0 0 2px #163858;
+    background-color: #2576c2;
+  }
+
+  &__name {
+    font-size: 1.6rem;
+    text-shadow: 0 0 3px #000;
+  }
+}
+
+//===================
+// CARD LIST ITEM
+//===================
