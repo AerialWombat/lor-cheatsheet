@@ -1,5 +1,6 @@
 interface Props {
   card: Card;
+  updateTooltip: updateTooltip;
 }
 
 const regionColors: any = {
@@ -13,7 +14,7 @@ const regionColors: any = {
   Targon: '83, 222, 217',
 };
 
-const CardListItem: React.FC<Props> = ({ card }) => {
+const CardListItem: React.FC<Props> = ({ card, updateTooltip }) => {
   const { code, name, cost, region } = card;
   const backgroundImageUrl = `${process.env.PUBLIC_URL}/images/full-art/${code}-full.png`;
 
@@ -26,7 +27,13 @@ const CardListItem: React.FC<Props> = ({ card }) => {
   };
 
   return (
-    <div style={backgroundStyle} className="card-list-item" data-code={code}>
+    <div
+      style={backgroundStyle}
+      className="card-list-item"
+      data-code={code}
+      onMouseEnter={(event) => updateTooltip(event, code)}
+      onMouseLeave={(event) => updateTooltip(event, code)}
+    >
       <span className="card-list-item__cost">{cost}</span>
       <span className="card-list-item__name">{name}</span>
     </div>

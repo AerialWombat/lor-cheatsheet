@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import CardList from './components/CardList';
 import CardListItem from './components/CardListItem';
+import CardToolTip from './components/CardToolTip';
 
 import './styles/styles.scss';
 import cardData from './assets/set-data/combined-set-data.json';
@@ -9,6 +10,14 @@ function App() {
   const [cards, setCards] = useState<Card[]>(
     cardData.sort((card1, card2) => card1.cost - card2.cost)
   );
+  const [toolTip, setTooltip] = useState<Tooltip>({
+    code: '',
+    isVisible: false,
+    position: {
+      x: 0,
+      y: 0,
+    },
+  });
   const [costFilters, setCostFilters] = useState<costFilters>({
     '-1': false,
     '2': false,
@@ -29,10 +38,6 @@ function App() {
     Targon: false,
   });
 
-  // useEffect(() => {
-  //   console.log('EFFECT');
-  // });
-
   const toggleCostFilter: toggleCostFilter = (selectedValue) => {
     setCostFilters({
       ...costFilters,
@@ -47,54 +52,72 @@ function App() {
     });
   };
 
+  const toggleCardOverlay = () => {};
+
+  const updateTooltip: updateTooltip = (event, code) => {
+    if (window.innerWidth < 660) return;
+
+    const { width, height, left, right, top, bottom } = event.target.getClientRects()[0];
+    const position = {
+      x: right + width > window.innerWidth ? right - width - 250 : left + width,
+      y: bottom + 350 > window.innerHeight ? bottom - height - 300 : top + height / 2,
+    };
+
+    if (event.type === 'mouseenter') setTooltip({ code: code, isVisible: true, position });
+    if (event.type === 'mouseleave') setTooltip({ code: code, isVisible: false, position });
+  };
+
   return (
     <div className="layout">
-      <div className="card-tooltip"></div>
+      {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
       <div className="layout__lists">
         <CardList
           cards={cards}
           speed="Burst"
           costFilters={costFilters}
           regionFilters={regionFilters}
+          updateTooltip={updateTooltip}
         />
         <CardList
           cards={cards}
           speed="Fast"
           costFilters={costFilters}
           regionFilters={regionFilters}
+          updateTooltip={updateTooltip}
         />
         <CardList
           cards={cards}
           speed="Slow"
           costFilters={costFilters}
           regionFilters={regionFilters}
+          updateTooltip={updateTooltip}
         />
       </div>
       <div className="layout__filters">
         <div className="row">
           <div className="region-filter" onClick={() => toggleRegionFilter('Demacia')}>
-            Demacia
+            Dm
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('Noxus')}>
-            Noxus
+            Nx
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('Freljord')}>
-            Freljord
+            Fj
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('Ionia')}>
-            Ionia
+            In
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('ShadowIsles')}>
-            ShadowIsles
+            Si
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('Bilgewater')}>
-            Bilgewater
+            Bw
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('PiltoverZaun')}>
-            PiltoverZaun
+            Pz
           </div>
           <div className="region-filter" onClick={() => toggleRegionFilter('Targon')}>
-            Targon
+            Tg
           </div>
           {/* <div className="region-filter" onClick={() => toggleRegionFilter('Shurima')}>
             Shurima

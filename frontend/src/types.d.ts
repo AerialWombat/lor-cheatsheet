@@ -7,6 +7,15 @@ interface Card {
   type: string;
 }
 
+interface Tooltip {
+  code: string;
+  isVisible: boolean;
+  position: {
+    x: number;
+    y: number;
+  };
+}
+
 interface costFilters {
   [value: string]: boolean;
 }
@@ -17,6 +26,7 @@ interface regionFilters {
 
 type toggleCostFilter = (selectedValue: string) => void;
 type toggleRegionFilter = (selectedRegion: string) => void;
+type updateTooltip = (Event, code: string) => void;
 
 // type regionFilters = {
 // 	demacia: boolean;

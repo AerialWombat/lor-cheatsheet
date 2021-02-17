@@ -127,11 +127,25 @@ $breakpoints-down: (
 }
 
 //===================
+// CARD TOOLTIP
+//===================
+.card-tooltip {
+  position: absolute;
+  z-index: 1000;
+
+  // testing
+  max-height: 10rem;
+
+  img {
+    max-width: 25rem;
+  }
+}
+
+//===================
 // CARD LIST
 //===================
 .card-list {
   height: 100%;
-  // overflow: scroll;
 
   &__header {
     padding-bottom: 1rem;
@@ -188,10 +202,14 @@ $breakpoints-down: (
     font-size: 1.4rem;
     box-shadow: 0 0 2px #163858;
     background-color: #2576c2;
+
+    pointer-events: none;
   }
 
   &__name {
     font-size: 1.6rem;
     text-shadow: 0 0 3px #000;
+
+    pointer-events: none;
   }
 }
