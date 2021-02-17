@@ -4,9 +4,10 @@ interface Props {
   cards: Card[];
   speed: 'Burst' | 'Fast' | 'Slow';
   costFilters: costFilters;
+  regionFilters: regionFilters;
 }
 
-const CardList: React.FC<Props> = ({ cards, speed, costFilters }) => {
+const CardList: React.FC<Props> = ({ cards, speed, costFilters, regionFilters }) => {
   const filteredCards = cards
     .filter((card) => card.spellSpeed === speed) // Filter based on speed
     .filter((card) => {
@@ -22,17 +23,27 @@ const CardList: React.FC<Props> = ({ cards, speed, costFilters }) => {
       } else {
         return costFilters[card.cost.toString()];
       }
+    })
+    .filter((card) => {
+      // Filter based on region
+      if (Object.values(regionFilters).every((filter) => filter === false)) {
+        return card;
+      } else {
+        return regionFilters[card.region];
+      }
     });
 
   return (
     <div className="card-list">
       <h1 className="card-list__header">{speed}</h1>
       <ul className="card-list__cards">
-        {filteredCards
-          // .sort((card1, card2) => card1.cost - card2.cost)
-          .map((card) => {
+        {filteredCards.length > 0 ? (
+          filteredCards.map((card) => {
             return <CardListItem card={card} key={card.code} />;
-          })}
+          })
+        ) : (
+          <div className="card-list__no-cards">No matching cards.</div>
+        )}
       </ul>
     </div>
   );

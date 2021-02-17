@@ -145,6 +145,13 @@ $breakpoints-down: (
     max-height: 90%;
     overflow-y: auto;
   }
+
+  &__no-cards {
+    padding: 1rem;
+    border: 3px dashed lighten($bronze-accent, 15%);
+    border-radius: 3px;
+    font-size: 1.6rem;
+  }
 }
 
 //===================
@@ -188,7 +195,3 @@ $breakpoints-down: (
     text-shadow: 0 0 3px #000;
   }
 }
-
-//===================
-// CARD LIST ITEM
-//===================

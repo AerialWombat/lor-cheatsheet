@@ -11,7 +11,12 @@ interface costFilters {
   [value: string]: boolean;
 }
 
+interface regionFilters {
+  [region: string]: boolean;
+}
+
 type toggleCostFilter = (selectedValue: string) => void;
+type toggleRegionFilter = (selectedRegion: string) => void;
 
 // type regionFilters = {
 // 	demacia: boolean;
