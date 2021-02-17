@@ -7,6 +7,11 @@ interface Card {
   type: string;
 }
 
+interface Overlay {
+  code: string;
+  isVisible: boolean;
+}
+
 interface Tooltip {
   code: string;
   isVisible: boolean;
@@ -27,27 +32,4 @@ interface regionFilters {
 type toggleCostFilter = (selectedValue: string) => void;
 type toggleRegionFilter = (selectedRegion: string) => void;
 type updateTooltip = (Event, code: string) => void;
-
-// type regionFilters = {
-// 	demacia: boolean;
-// 	noxus: boolean;
-// 	freljord: boolean;
-// 	ionia: boolean;
-// 	shadowisles: boolean;
-// 	bilgewater: boolean;
-// 	piltoverzaun: boolean;
-// };
-
-// type Card = {
-// 	cardCode: string;
-// 	cost: number;
-// 	name: string;
-// 	region: string;
-// 	spellSpeed: string;
-// 	type: string;
-// };
-
-// type filterCardList = (type: string, cards: Array<Card>) => Array<Card>;
-// type toggleManaFilter = (selectedValue: number) => void;
-// type toggleRegionFilter = (selectedRegion: string) => void;
-// type checkCost = (cardCost: number, manaFilters: manaFilters) => boolean;
+type updateOverlay = (code?: string) => void;

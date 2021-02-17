@@ -16,7 +16,7 @@ const CardToolTip: React.FC<Props> = ({ code, position }) => {
 
   return (
     <div style={positionStyles} className="card-tooltip">
-      <img src={fullCardImageUrl} alt="Art for card ${code}" />
+      <img src={fullCardImageUrl} alt={`Art for card ${code}`} />
     </div>
   );
 };

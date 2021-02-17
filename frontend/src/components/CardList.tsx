@@ -6,9 +6,17 @@ interface Props {
   costFilters: costFilters;
   regionFilters: regionFilters;
   updateTooltip: updateTooltip;
+  updateOverlay: updateOverlay;
 }
 
-const CardList: React.FC<Props> = ({ cards, speed, costFilters, regionFilters, updateTooltip }) => {
+const CardList: React.FC<Props> = ({
+  cards,
+  speed,
+  costFilters,
+  regionFilters,
+  updateTooltip,
+  updateOverlay,
+}) => {
   const filteredCards = cards
     .filter((card) => card.spellSpeed === speed) // Filter based on speed
     .filter((card) => {
@@ -40,7 +48,14 @@ const CardList: React.FC<Props> = ({ cards, speed, costFilters, regionFilters, u
       <ul className="card-list__cards">
         {filteredCards.length > 0 ? (
           filteredCards.map((card) => {
-            return <CardListItem card={card} key={card.code} updateTooltip={updateTooltip} />;
+            return (
+              <CardListItem
+                card={card}
+                key={card.code}
+                updateTooltip={updateTooltip}
+                updateOverlay={updateOverlay}
+              />
+            );
           })
         ) : (
           <div className="card-list__no-cards">No matching cards.</div>

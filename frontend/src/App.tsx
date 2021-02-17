@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CardList from './components/CardList';
-import CardListItem from './components/CardListItem';
+import CardOverlay from './components/CardOverlay';
 import CardToolTip from './components/CardToolTip';
 
 import './styles/styles.scss';
@@ -10,6 +10,10 @@ function App() {
   const [cards, setCards] = useState<Card[]>(
     cardData.sort((card1, card2) => card1.cost - card2.cost)
   );
+  const [overlay, setOverlay] = useState<Overlay>({
+    code: '',
+    isVisible: false,
+  });
   const [toolTip, setTooltip] = useState<Tooltip>({
     code: '',
     isVisible: false,
@@ -52,10 +56,14 @@ function App() {
     });
   };
 
-  const toggleCardOverlay = () => {};
+  const updateCardOverlay: updateOverlay = (code) => {
+    if (window.innerWidth > 661) return;
+
+    setOverlay({ code: code ? code : '', isVisible: !overlay.isVisible });
+  };
 
   const updateTooltip: updateTooltip = (event, code) => {
-    if (window.innerWidth < 660) return;
+    if (window.innerWidth <= 660) return;
 
     const { width, height, left, right, top, bottom } = event.target.getClientRects()[0];
     const position = {
@@ -69,6 +77,7 @@ function App() {
 
   return (
     <div className="layout">
+      {overlay.isVisible && <CardOverlay code={overlay.code} updateOverlay={updateCardOverlay} />}
       {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
       <div className="layout__lists">
         <CardList
@@ -77,6 +86,7 @@ function App() {
           costFilters={costFilters}
           regionFilters={regionFilters}
           updateTooltip={updateTooltip}
+          updateOverlay={updateCardOverlay}
         />
         <CardList
           cards={cards}
@@ -84,6 +94,7 @@ function App() {
           costFilters={costFilters}
           regionFilters={regionFilters}
           updateTooltip={updateTooltip}
+          updateOverlay={updateCardOverlay}
         />
         <CardList
           cards={cards}
@@ -91,6 +102,7 @@ function App() {
           costFilters={costFilters}
           regionFilters={regionFilters}
           updateTooltip={updateTooltip}
+          updateOverlay={updateCardOverlay}
         />
       </div>
       <div className="layout__filters">
