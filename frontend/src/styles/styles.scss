@@ -4,7 +4,7 @@
 // ===================================
 $primary-color: #e5e5e5;
 $primary-bg-color: #29242a;
-$bronze-accent: #916042;
+$bronze-accent: #c49250;
 
 //===================
 // CSS RESET
@@ -18,9 +18,16 @@ $bronze-accent: #916042;
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 html {
   // This defines what 1rem is
   font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -68,8 +75,9 @@ $breakpoints-down: (
 //===================
 
 .layout {
+  height: 100%;
   display: grid;
-  grid-template-rows: 85vh 15vh;
+  grid-template-rows: 85% 15%;
 
   &__lists {
     display: flex;
@@ -91,36 +99,13 @@ $breakpoints-down: (
 
   &__filters {
     height: 100%;
-    border: 2px solid orange;
 
-    .row {
+    .filters__row {
       height: 50%;
       display: flex;
 
-      .cost-filter {
-        cursor: pointer;
-        border: 1px solid green;
-        flex-grow: 7;
-
-        transition: background-color 0.1s ease-in-out;
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.2);
-        }
-      }
-
-      .region-filter {
-        cursor: pointer;
-
-        border: 1px solid green;
-        flex-grow: 9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        transition: background-color 0.1s ease-in-out;
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.2);
-        }
+      div {
+        border-top: 2px solid $bronze-accent;
       }
     }
   }
@@ -227,4 +212,40 @@ $breakpoints-down: (
 
     pointer-events: none;
   }
+}
+
+//===================
+// FILTER BUTTON
+//===================
+.cost-filter,
+.region-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  // border: 2px solid $bronze-accent;
+  border-left: 2px solid $bronze-accent;
+
+  flex: 1 1 0;
+
+  transition: background-color 0.1s ease-in-out;
+
+  &--active {
+    background-color: rgba($bronze-accent, 0.4);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba($bronze-accent, 0.4);
+    }
+  }
+
+  &:last-child {
+    border-right: 2px solid $bronze-accent;
+  }
+}
+
+.region-filter {
+  // border-top: 2px solid $bronze-accent;
 }

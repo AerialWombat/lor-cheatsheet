@@ -2,6 +2,7 @@ import { useState } from 'react';
 import CardList from './components/CardList';
 import CardOverlay from './components/CardOverlay';
 import CardToolTip from './components/CardToolTip';
+import FilterButton from './components/FilterButton';
 
 import './styles/styles.scss';
 import cardData from './assets/set-data/combined-set-data.json';
@@ -36,7 +37,7 @@ function App() {
     Noxus: false,
     Freljord: false,
     Ionia: false,
-    Shadowisles: false,
+    ShadowIsles: false,
     Bilgewater: false,
     PiltoverZaun: false,
     Targon: false,
@@ -106,57 +107,99 @@ function App() {
         />
       </div>
       <div className="layout__filters">
-        <div className="row">
-          <div className="region-filter" onClick={() => toggleRegionFilter('Demacia')}>
-            Dm
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('Noxus')}>
-            Nx
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('Freljord')}>
-            Fj
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('Ionia')}>
-            In
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('ShadowIsles')}>
-            Si
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('Bilgewater')}>
-            Bw
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('PiltoverZaun')}>
-            Pz
-          </div>
-          <div className="region-filter" onClick={() => toggleRegionFilter('Targon')}>
-            Tg
-          </div>
-          {/* <div className="region-filter" onClick={() => toggleRegionFilter('Shurima')}>
-            Shurima
-          </div> */}
+        <div className="filters__row">
+          <FilterButton
+            type="region"
+            value="Demacia"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="Noxus"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="Freljord"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="Ionia"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="ShadowIsles"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="Bilgewater"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="PiltoverZaun"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="Targon"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
         </div>
-        <div className="row">
-          <div className="cost-filter" onClick={() => toggleCostFilter('-1')}>
-            -1
-          </div>
-          <div className="cost-filter" onClick={() => toggleCostFilter('2')}>
-            2
-          </div>
-          <div className="cost-filter" onClick={() => toggleCostFilter('3')}>
-            3
-          </div>
-          <div className="cost-filter" onClick={() => toggleCostFilter('4')}>
-            4
-          </div>
-          <div className="cost-filter" onClick={() => toggleCostFilter('5')}>
-            5
-          </div>
-          <div className="cost-filter" onClick={() => toggleCostFilter('6')}>
-            6
-          </div>
-          <div className="cost-filter" onClick={() => toggleCostFilter('7+')}>
-            7+
-          </div>
+        <div className="filters__row">
+          <FilterButton
+            type="cost"
+            value="-1"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
+          <FilterButton
+            type="cost"
+            value="2"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
+          <FilterButton
+            type="cost"
+            value="3"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
+          <FilterButton
+            type="cost"
+            value="4"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
+          <FilterButton
+            type="cost"
+            value="5"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
+          <FilterButton
+            type="cost"
+            value="6"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
+          <FilterButton
+            type="cost"
+            value="7+"
+            filters={costFilters}
+            clickHandler={toggleCostFilter}
+          />
         </div>
       </div>
     </div>
