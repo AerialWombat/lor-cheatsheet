@@ -283,16 +283,24 @@ $breakpoints-down: (
 .cost-filter,
 .region-filter {
   display: flex;
+  flex: 1 1 0;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
+  border-left: 2px solid $bronze-accent;
+  font-size: 1.75rem;
+  font-weight: bold;
   cursor: pointer;
 
-  // border: 2px solid $bronze-accent;
-  border-left: 2px solid $bronze-accent;
-
-  flex: 1 1 0;
-
   transition: background-color 0.1s ease-in-out;
+
+  &__icon {
+    color: red;
+    flex: 1 1 0;
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+  }
 
   &--active {
     background-color: rgba($bronze-accent, 0.4);
@@ -307,8 +315,4 @@ $breakpoints-down: (
   &:last-child {
     border-right: 2px solid $bronze-accent;
   }
-}
-
-.region-filter {
-  // border-top: 2px solid $bronze-accent;
 }
