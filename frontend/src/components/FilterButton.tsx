@@ -10,8 +10,6 @@ const FilterButton: React.FC<Props> = ({ type, value, filters, clickHandler }) =
     process.env.PUBLIC_URL
   }/images/icons/icon-${value.toLowerCase()}.png`;
 
-  console.log('ICON URL:', regionIconImageUrl);
-
   return (
     <div
       className={`${type}-filter` + (filters[value] ? ` ${type}-filter--active` : '')}

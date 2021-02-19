@@ -101,6 +101,7 @@ $breakpoints-down: (
 
   &__filters {
     height: 100%;
+    box-shadow: 0 -2px 15px #111;
 
     .filters__row {
       height: 50%;
@@ -132,6 +133,13 @@ $breakpoints-down: (
   &::after {
     content: '\00BB';
     right: 0.5rem;
+  }
+
+  @include breakpoint-up(medium) {
+    &::before,
+    &::after {
+      display: none;
+    }
   }
 }
 
@@ -246,8 +254,8 @@ $breakpoints-down: (
   border-radius: 3px;
 
   color: #ddd;
-  font-weight: 500;
-  background-color: #666; // Fallback color
+  font-weight: 700;
+  background: #333; // Fallback background
 
   box-shadow: 3px 3px 6px #111;
 
@@ -274,6 +282,10 @@ $breakpoints-down: (
     text-shadow: 0 0 3px #000;
 
     pointer-events: none;
+  }
+
+  &--hidden {
+    display: none;
   }
 }
 
@@ -312,7 +324,11 @@ $breakpoints-down: (
     }
   }
 
+  &:first-child {
+    border-left: none;
+  }
+
   &:last-child {
-    border-right: 2px solid $bronze-accent;
+    border-right: none;
   }
 }
