@@ -82,11 +82,10 @@ $breakpoints-down: (
   &__lists {
     display: flex;
     align-items: flex-start;
-    scroll-snap-type: x mandatory;
 
-    // if no scroll snap
-    // flex-direction: column;
-    // align-items: center;
+    @supports (scroll-snap-type: x mandatory) {
+      scroll-snap-type: x mandatory;
+    }
 
     width: 100%;
     height: 100%;
@@ -156,14 +155,37 @@ $breakpoints-down: (
   min-width: 100vw;
   margin-right: 1rem;
 
-  // if scroll snap
-  // scroll-snap-align: start;
+  @supports (scroll-snap-align: start) {
+    scroll-snap-align: start;
+  }
+
+  @include breakpoint-up(medium) {
+    min-width: auto;
+  }
 
   &__header {
-    padding-bottom: 1rem;
+    display: flex;
+    padding-bottom: 0.75rem;
     margin-top: 1rem;
-    border-bottom: 2px solid $bronze-accent;
     text-align: center;
+
+    &::before,
+    &::after {
+      content: '';
+      border-top: 2px solid $bronze-accent;
+      position: relative;
+      top: 1rem;
+      width: 7.5rem;
+      display: inline-block;
+    }
+
+    &::before {
+      left: -1.5rem;
+    }
+
+    &::after {
+      right: -1.5rem;
+    }
   }
 
   &__cards {
