@@ -31,8 +31,6 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries, observer) => {
         if (entries[0].isIntersecting) {
-          console.log(imageObserver);
-
           setBackgroundStyle({
             background: `linear-gradient(to right,
                 rgba(${regionColors[region]},1),

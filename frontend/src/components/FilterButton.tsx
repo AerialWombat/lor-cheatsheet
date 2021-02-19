@@ -18,12 +18,7 @@ const FilterButton: React.FC<Props> = ({ type, value, filters, clickHandler }) =
       {type === 'cost' ? (
         value
       ) : (
-        <img
-          loading="lazy"
-          className="region-filter__icon"
-          src={regionIconImageUrl}
-          alt={`${value} icon`}
-        />
+        <img className="region-filter__icon" src={regionIconImageUrl} alt={`${value} icon`} />
       )}
     </div>
   );
