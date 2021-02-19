@@ -6,8 +6,8 @@ const Jimp = require('jimp');
 
 const projectDir = path.resolve(__dirname, '..', './frontend');
 const setDataDir = path.resolve(projectDir, './src/assets/set-data');
-const cardArtDir = path.resolve(projectDir, './src/assets/images/card-art');
-const fullArtDir = path.resolve(projectDir, './src/assets/images/full-art');
+const cardArtDir = path.resolve(projectDir, './public/images/card-art');
+const fullArtDir = path.resolve(projectDir, './public/images/full-art');
 
 async function getSetAmount() {
   console.log('Checking how many sets to download...');
@@ -205,13 +205,13 @@ async function processImages() {
   for (const imageFile of fullArtFiles) {
     const pathToImage = path.resolve(fullArtDir, `./${imageFile}`);
     const image = await Jimp.read(pathToImage);
-    image.resize(280, Jimp.AUTO).quality(80).write(pathToImage);
+    image.resize(280, Jimp.AUTO).quality(60).write(pathToImage);
   }
 
   for (const imageFile of cardArtFiles) {
     const pathToImage = path.resolve(cardArtDir, `./${imageFile}`);
     const image = await Jimp.read(pathToImage);
-    image.resize(340, Jimp.AUTO).quality(80).write(pathToImage);
+    image.resize(340, Jimp.AUTO).quality(60).write(pathToImage);
   }
 
   console.log('Images processed...');
@@ -220,11 +220,13 @@ async function processImages() {
 async function asyncInit() {
   // Check how many sets are available to download
   const setAmount = await getSetAmount();
+  const setDataPromises = [];
 
   // Download set data
   for (let i = 1; i <= setAmount; i++) {
-    await getSetData(i);
+    setDataPromises.push(getSetData(i));
   }
+  await Promise.allSettled(setDataPromises);
 
   // Filter set data JSON and image assets for spells only
   filterSpellCards();
