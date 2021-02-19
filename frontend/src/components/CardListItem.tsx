@@ -27,7 +27,6 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
   const cardListItem = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log('effect!');
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries, observer) => {
         if (entries[0].isIntersecting) {
