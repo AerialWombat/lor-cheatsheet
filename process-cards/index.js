@@ -6,34 +6,67 @@ const Jimp = require('jimp');
 
 const projectDir = path.resolve(__dirname, '..', './frontend');
 const setDataDir = path.resolve(projectDir, './src/assets/set-data');
+const iconArtDir = path.resolve(projectDir, './public/images/icons');
 const cardArtDir = path.resolve(projectDir, './public/images/card-art');
 const fullArtDir = path.resolve(projectDir, './public/images/full-art');
 
+async function getCoreData() {
+  return new Promise((resolve, reject) => {
+    console.log(`Downloading core data...`);
+    const request = https.get(`https://dd.b.pvp.net/latest/core-en_us.zip`, (response) => {
+      // Check for successful response
+      if (response.statusCode < 200 || response.statusCode > 299) {
+        reject(new Error(`Request for core data failed. Status code: ${response.statusCode}`));
+      }
+
+      response.on('end', () => {
+        console.log(`Core data files downloaded...`);
+      });
+
+      response
+        .pipe(unzipper.Parse())
+        .on('entry', (entry) => {
+          const fileName = path.basename(entry.path);
+          let filePath;
+
+          // Set filePath for each entry unless it is unwanted file
+          if (fileName.includes('globals')) {
+            filePath = setDataDir;
+          } else if (fileName.includes('icon-') && !fileName.includes('icon-all.png')) {
+            filePath = iconArtDir;
+          }
+
+          // Check if filePath was set or was unwanted file
+          if (filePath) {
+            fs.mkdir(filePath, { recursive: true }, (error) => {
+              if (error) throw error;
+              entry.pipe(fs.createWriteStream(path.resolve(projectDir, filePath, `./${fileName}`)));
+            });
+          }
+        })
+        .on('close', () => {
+          resolve(`Core data extracted...`);
+        })
+        .on('error', (error) => {
+          reject(`Error getting core data... ${error}`);
+        });
+    });
+
+    request.on('error', (error) => {
+      reject(`Error downloading core data... ${error}`);
+    });
+
+    request.end();
+  });
+}
+
 async function getSetAmount() {
   console.log('Checking how many sets to download...');
-  let reachedLastSet = false;
-  let setCounter = 1;
-  let setAmount = 0;
 
-  while (!reachedLastSet) {
-    await new Promise((resolve) => {
-      const request = https.get(
-        `https://dd.b.pvp.net/latest/set${setCounter}-en_us.zip`,
-        (response) => {
-          if (response.statusCode > 299) {
-            reachedLastSet = true;
-            resolve();
-          } else {
-            setCounter++;
-            setAmount++;
-            resolve();
-          }
-        }
-      );
-
-      request.end();
-    });
-  }
+  const coreDataPath = path.resolve(setDataDir, `./globals-en_us.json`);
+  const buffer = fs.readFileSync(coreDataPath);
+  const coreData = JSON.parse(buffer);
+  const setAmount = coreData.sets.length;
 
   console.log(`${setAmount} sets to download...`);
   return setAmount;
@@ -103,6 +136,8 @@ async function getSetData(setNumber) {
 }
 
 function filterSpellCards() {
+  console.log('Filtering for spell cards...');
+
   const spellCardCodes = [];
 
   try {
@@ -111,7 +146,7 @@ function filterSpellCards() {
 
     // Filter JSON data for only spell data
     fs.readdirSync(setDataDir).forEach((file) => {
-      if (file === 'combined-set-data.json') return;
+      if (file === 'combined-set-data.json' || file === 'globals-en_us.json') return;
 
       //? [02-10] Unsure why setNumber was needed here. Going to use file string instead
       //   const setNumber = file.match(/\d+/g)[0];
@@ -126,21 +161,24 @@ function filterSpellCards() {
       const filteredSetData = [];
 
       setData.forEach((card) => {
-        if (card.supertype.toLowerCase)
-          if (card.type.toLowerCase() === 'spell' && card.supertype.toLowerCase() !== 'champion') {
-            const { regionRef, cost, name, cardCode, spellSpeedRef, type } = card;
+        if (
+          card.type.toLowerCase() === 'spell' &&
+          card.supertype.toLowerCase() !== 'Champion' && // Ignore champion spells
+          card.rarity !== 'None' // Ignore derived cards
+        ) {
+          const { regionRef, cost, name, cardCode, spellSpeedRef, type } = card;
 
-            filteredSetData.push({
-              region: regionRef,
-              cost,
-              name,
-              code: cardCode,
-              spellSpeed: spellSpeedRef,
-              type,
-            });
+          filteredSetData.push({
+            region: regionRef,
+            cost,
+            name,
+            code: cardCode,
+            spellSpeed: spellSpeedRef,
+            type,
+          });
 
-            spellCardCodes.push(cardCode);
-          }
+          spellCardCodes.push(cardCode);
+        }
       });
 
       // Write filtered set data to its own JSON
@@ -198,6 +236,8 @@ function filterSpellCards() {
 }
 
 async function processImages() {
+  console.log('Processing images...');
+
   // Read art asset directories for filepaths
   const fullArtFiles = fs.readdirSync(fullArtDir);
   const cardArtFiles = fs.readdirSync(cardArtDir);
@@ -218,6 +258,8 @@ async function processImages() {
 }
 
 async function asyncInit() {
+  await getCoreData();
+
   // Check how many sets are available to download
   const setAmount = await getSetAmount();
   const setDataPromises = [];
