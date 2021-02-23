@@ -162,8 +162,8 @@ function filterSpellCards() {
 
       setData.forEach((card) => {
         if (
-          card.type.toLowerCase() === 'spell' &&
-          card.supertype.toLowerCase() !== 'Champion' && // Ignore champion spells
+          card.type === 'Spell' &&
+          card.supertype !== 'Champion' && // Ignore champion spells
           card.rarity !== 'None' // Ignore derived cards
         ) {
           const { regionRef, cost, name, cardCode, spellSpeedRef, type } = card;
