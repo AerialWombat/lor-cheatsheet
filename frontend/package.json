@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "pre-build": "node ../process-cards",
+    "build": "npm run pre-build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
