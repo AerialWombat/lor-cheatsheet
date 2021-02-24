@@ -24,6 +24,14 @@ const CardList: React.FC<Props> = ({
   const filteredCards = cards
     .filter((card) => card.spellSpeed === speed) // Filter based on speed
     .filter((card) => {
+      // Filter based on region
+      if (Object.values(regionFilters).every((filter) => filter === false)) {
+        return card;
+      } else {
+        return regionFilters[card.region];
+      }
+    })
+    .filter((card) => {
       // Filter based on cost
       if (Object.values(costFilters).every((filter) => filter === false)) {
         return card;
@@ -36,16 +44,9 @@ const CardList: React.FC<Props> = ({
       } else {
         return costFilters[card.cost.toString()];
       }
-    })
-    .filter((card) => {
-      // Filter based on region
-      if (Object.values(regionFilters).every((filter) => filter === false)) {
-        return card;
-      } else {
-        return regionFilters[card.region];
-      }
     });
 
+  // Intersection observer to check for moving between lists on mobile
   useEffect(() => {
     if ('IntersectionObserver' in window) {
       const listObserver = new IntersectionObserver(
@@ -67,27 +68,41 @@ const CardList: React.FC<Props> = ({
     }
   }, [handleMobileSwipe]);
 
-  return (
-    <div className="card-list" ref={cardList}>
-      <h1 className="card-list__header">{speed}</h1>
-      <ul className="card-list__cards">
-        {filteredCards.length > 0 ? (
-          filteredCards.map((card) => {
-            return (
-              <CardListItem
-                card={card}
-                key={card.code}
-                updateTooltip={updateTooltip}
-                updateOverlay={updateOverlay}
-              />
-            );
-          })
-        ) : (
-          <div className="card-list__no-cards">No matching cards.</div>
-        )}
-      </ul>
-    </div>
-  );
+  if (
+    Object.values(regionFilters).every((filter) => filter === false) &&
+    Object.values(costFilters).every((filter) => filter === false)
+  ) {
+    return (
+      <div className="card-list" ref={cardList}>
+        <h1 className="card-list__header">{speed}</h1>
+        <ul className="card-list__cards">
+          <div className="card-list__no-cards">Choose a filter</div>
+        </ul>
+      </div>
+    );
+  } else {
+    return (
+      <div className="card-list" ref={cardList}>
+        <h1 className="card-list__header">{speed}</h1>
+        <ul className="card-list__cards">
+          {filteredCards.length > 0 ? (
+            filteredCards.map((card) => {
+              return (
+                <CardListItem
+                  card={card}
+                  key={card.code}
+                  updateTooltip={updateTooltip}
+                  updateOverlay={updateOverlay}
+                />
+              );
+            })
+          ) : (
+            <div className="card-list__no-cards">No matching cards.</div>
+          )}
+        </ul>
+      </div>
+    );
+  }
 };
 
 export default CardList;

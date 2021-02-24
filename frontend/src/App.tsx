@@ -69,13 +69,13 @@ function App() {
   };
 
   const updateCardOverlay: updateOverlay = (code) => {
-    if (window.innerWidth > 661) return;
+    if (window.innerWidth > 661) return; // Only use overlay for mobile views
 
     setOverlay({ code: code ? code : '', isVisible: !overlay.isVisible });
   };
 
   const updateTooltip: updateTooltip = (event, code) => {
-    if (window.innerWidth <= 660) return;
+    if (window.innerWidth <= 660) return; // Only use tooltips for larger views
 
     const { width, height, left, right, top, bottom } = event.target.getClientRects()[0];
     const position = {
