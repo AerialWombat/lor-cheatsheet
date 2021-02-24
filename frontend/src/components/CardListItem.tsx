@@ -45,7 +45,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
         imageObserver.observe(cardListItem.current);
       }
     }
-  }, []);
+  }, [region, backgroundImageUrl]);
 
   return (
     <li
