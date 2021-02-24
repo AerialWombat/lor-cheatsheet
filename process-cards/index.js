@@ -149,11 +149,6 @@ function filterSpellCards() {
     fs.readdirSync(setDataDir).forEach((file) => {
       if (file === 'combined-set-data.json' || file === 'globals-en_us.json') return;
 
-      //? [02-10] Unsure why setNumber was needed here. Going to use file string instead
-      //   const setNumber = file.match(/\d+/g)[0];
-      //   const setDataPath = path.resolve(setDataDir, `./set${setNumber}-en_us.json`);
-      //? [02-10]
-
       const setDataPath = path.resolve(setDataDir, `./${file}`);
 
       const buffer = fs.readFileSync(setDataPath);
@@ -243,22 +238,49 @@ async function processImages() {
   const fullArtFiles = fs.readdirSync(fullArtDir);
   const cardArtFiles = fs.readdirSync(cardArtDir);
 
+  const processPromises = [];
+
   for (const imageFile of fullArtFiles) {
     const pathToImage = path.resolve(fullArtDir, `./${imageFile}`);
 
-    let buffer = await sharp(pathToImage).resize({ width: 280 }).webp({ quality: 75 }).toBuffer();
-    sharp(buffer).toFile(pathToImage.replace('png', 'webp'));
-    fs.unlinkSync(pathToImage);
+    const processPromise = new Promise((resolve, reject) => {
+      sharp(pathToImage)
+        .resize({ width: 280 })
+        .webp({ quality: 75 })
+        .toFile(pathToImage.replace('png', 'webp'))
+        .then(() => {
+          fs.unlink(pathToImage, (error) => {
+            if (error) throw error;
+            reject(error);
+          });
+        })
+        .catch((error) => reject(error));
+    });
+
+    processPromises.push(processPromise);
   }
 
   for (const imageFile of cardArtFiles) {
     const pathToImage = path.resolve(cardArtDir, `./${imageFile}`);
 
-    let buffer = await sharp(pathToImage).resize({ width: 280 }).webp({ quality: 75 }).toBuffer();
-    sharp(buffer).toFile(pathToImage.replace('png', 'webp'));
-    fs.unlinkSync(pathToImage);
+    const processPromise = new Promise((resolve, reject) => {
+      sharp(pathToImage)
+        .resize({ width: 340 })
+        .webp({ quality: 75 })
+        .toFile(pathToImage.replace('png', 'webp'))
+        .then(() => {
+          fs.unlink(pathToImage, (error) => {
+            if (error) throw error;
+            reject(error);
+          });
+        })
+        .catch((error) => reject(error));
+    });
+
+    processPromises.push(processPromise);
   }
 
+  await Promise.allSettled(processPromises);
   console.log('Images processed...');
 }
 
