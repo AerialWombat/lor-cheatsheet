@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "lor-spell-cheatsheet",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "pre-build": "node ../process-cards",
+    "pre-build": "cd ../process-cards && npm install && node ./index.js",
     "build": "npm run pre-build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
