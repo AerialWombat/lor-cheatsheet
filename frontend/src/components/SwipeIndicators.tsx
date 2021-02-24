@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface Props {
   currentSwipeIndex: number;
@@ -44,7 +44,7 @@ const SwipeIndicators: React.FC<Props> = ({
         });
       }
     }
-  }, [currentSwipeIndex, prevSwipeIndex]);
+  }, [currentSwipeIndex, prevSwipeIndex, maxSwipeIndexes]);
 
   const handleTransitionEnd = (event: React.AnimationEvent<HTMLDivElement>) => {
     if (event.animationName === 'bounceLeft') {

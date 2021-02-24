@@ -65,7 +65,7 @@ const CardList: React.FC<Props> = ({
         listObserver.observe(cardList.current);
       }
     }
-  }, []);
+  }, [handleMobileSwipe]);
 
   return (
     <div className="card-list" ref={cardList}>
