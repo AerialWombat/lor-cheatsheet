@@ -40,17 +40,17 @@
   .swipe-indicator {
     position: absolute;
     z-index: 900;
-    font-size: 7.5rem;
+    font-size: 5rem;
     color: rgba(lighten($bronze-accent, 15%), 0.5);
     top: 40%;
     transform: translate(0, -50%);
 
     &--left {
-      left: 1.75rem;
+      left: 1rem;
     }
 
     &--right {
-      right: 1.75rem;
+      right: 1rem;
     }
   }
 
