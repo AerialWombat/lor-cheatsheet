@@ -51,7 +51,7 @@ $breakpoints-up: (
   'xlarge': '87.5em',
 );
 
-// 639px, 1023px, 1399px
+// 839px, 1023px, 1399px
 $breakpoints-down: (
   'small': '52.4375em',
   'medium': '63.9375em',
@@ -71,9 +71,69 @@ $breakpoints-down: (
 }
 
 //===================
+// ANIMATIONS
+//===================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-in {
+  animation: fadeIn 250ms linear forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.fade-out {
+  animation: fadeOut 250ms linear forwards;
+}
+
+@keyframes bounceLeft {
+  0% {
+    transform: translate(0, -50%);
+  }
+  50% {
+    transform: translate(0, -50%) scale(1.25);
+
+    // transform: translate(25%, -50%);
+  }
+  100% {
+    transform: translate(0, -50%);
+  }
+}
+.bounce-left {
+  animation: bounceLeft 300ms linear forwards;
+}
+
+@keyframes bounceRight {
+  0% {
+    transform: translate(0, -50%);
+  }
+  50% {
+    transform: translate(0, -50%) scale(1.25);
+
+    // transform: translate(-25%, -50%);
+  }
+  100% {
+    transform: translate(0, -50%);
+  }
+}
+.bounce-right {
+  animation: bounceRight 300ms linear forwards;
+}
+
+//===================
 // LAYOUT
 //===================
-
 .layout {
   height: 100%;
   display: grid;
@@ -113,32 +173,28 @@ $breakpoints-down: (
     }
   }
 
-  // Swipe indicators. Update with intersection observer later to only show appropriate arrow and fade out when not relevant.
-  &::before,
-  &::after {
+  .swipe-indicator {
     position: absolute;
     z-index: 900;
     font-size: 7.5rem;
     color: rgba($primary-color, 0.5);
     top: 40%;
-    transform: translateY(-50%);
-  }
+    // opacity: 0;
+    transform: translate(0, -50%);
 
-  &::before {
-    content: '\00ab';
+    &--left {
+      left: 1.75rem;
+    }
 
-    left: 0.5rem;
-  }
+    &--right {
+      right: 1.75rem;
+    }
 
-  &::after {
-    content: '\00BB';
-    right: 0.5rem;
-  }
-
-  @include breakpoint-up(medium) {
-    &::before,
-    &::after {
-      display: none;
+    @include breakpoint-up(medium) {
+      &::before,
+      &::after {
+        opacity: 0;
+      }
     }
   }
 }
@@ -194,6 +250,9 @@ $breakpoints-down: (
 
   @supports (scroll-snap-align: start) {
     scroll-snap-align: start;
+  }
+  @supports (scroll-snap-stop: always) {
+    scroll-snap-stop: always;
   }
 
   @include breakpoint-up(medium) {

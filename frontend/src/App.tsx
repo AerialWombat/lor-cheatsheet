@@ -1,20 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CardList from './components/CardList';
 import CardOverlay from './components/CardOverlay';
 import CardToolTip from './components/CardToolTip';
 import FilterButton from './components/FilterButton';
+import SwipeIndicators from './components/SwipeIndicators';
 
 import './styles/styles.scss';
 import cardData from './assets/set-data/combined-set-data.json';
 
+function usePrevious(value: number) {
+  const ref = useRef<number>();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current as number;
+}
+
 function App() {
-  const [cards, setCards] = useState<Card[]>(
-    cardData.sort((card1, card2) => card1.cost - card2.cost)
-  );
+  const [cards] = useState<Card[]>(cardData.sort((card1, card2) => card1.cost - card2.cost));
+  const [speeds] = useState<string[]>(['Burst', 'Fast', 'Slow']);
   const [overlay, setOverlay] = useState<Overlay>({
     code: '',
     isVisible: false,
   });
+  const [currentSwipeIndex, setCurrentSwipeIndex] = useState<number>(0);
+  const prevSwipeIndex: number = usePrevious(currentSwipeIndex);
   const [toolTip, setTooltip] = useState<Tooltip>({
     code: '',
     isVisible: false,
@@ -76,35 +87,34 @@ function App() {
     if (event.type === 'mouseleave') setTooltip({ code: code, isVisible: false, position });
   };
 
+  const handleMobileSwipe: handleMobileSwipe = (newSwipeIndex) => {
+    setCurrentSwipeIndex(newSwipeIndex);
+  };
+
   return (
     <div className="layout">
       {overlay.isVisible && <CardOverlay code={overlay.code} updateOverlay={updateCardOverlay} />}
       {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
+      <SwipeIndicators
+        currentSwipeIndex={currentSwipeIndex}
+        prevSwipeIndex={prevSwipeIndex}
+        maxSwipeIndexes={speeds.length}
+      />
       <div className="layout__lists">
-        <CardList
-          cards={cards}
-          speed="Burst"
-          costFilters={costFilters}
-          regionFilters={regionFilters}
-          updateTooltip={updateTooltip}
-          updateOverlay={updateCardOverlay}
-        />
-        <CardList
-          cards={cards}
-          speed="Fast"
-          costFilters={costFilters}
-          regionFilters={regionFilters}
-          updateTooltip={updateTooltip}
-          updateOverlay={updateCardOverlay}
-        />
-        <CardList
-          cards={cards}
-          speed="Slow"
-          costFilters={costFilters}
-          regionFilters={regionFilters}
-          updateTooltip={updateTooltip}
-          updateOverlay={updateCardOverlay}
-        />
+        {speeds.map((speed) => {
+          return (
+            <CardList
+              key={speed}
+              cards={cards}
+              speed={speed}
+              costFilters={costFilters}
+              regionFilters={regionFilters}
+              updateTooltip={updateTooltip}
+              updateOverlay={updateCardOverlay}
+              handleMobileSwipe={handleMobileSwipe}
+            />
+          );
+        })}
       </div>
       <div className="layout__filters">
         <div className="filters__row">

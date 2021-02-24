@@ -1,12 +1,14 @@
+import { useEffect, useRef } from 'react';
 import CardListItem from './CardListItem';
 
 interface Props {
   cards: Card[];
-  speed: 'Burst' | 'Fast' | 'Slow';
+  speed: string;
   costFilters: costFilters;
   regionFilters: regionFilters;
   updateTooltip: updateTooltip;
   updateOverlay: updateOverlay;
+  handleMobileSwipe: any;
 }
 
 const CardList: React.FC<Props> = ({
@@ -16,7 +18,9 @@ const CardList: React.FC<Props> = ({
   regionFilters,
   updateTooltip,
   updateOverlay,
+  handleMobileSwipe,
 }) => {
+  const cardList = useRef<HTMLDivElement>(null);
   const filteredCards = cards
     .filter((card) => card.spellSpeed === speed) // Filter based on speed
     .filter((card) => {
@@ -42,8 +46,29 @@ const CardList: React.FC<Props> = ({
       }
     });
 
+  useEffect(() => {
+    if ('IntersectionObserver' in window) {
+      const listObserver = new IntersectionObserver(
+        (entries, observer) => {
+          if (entries[0].isIntersecting) {
+            if (cardList && cardList.current && cardList.current.parentNode) {
+              const index = Array.from(cardList.current.parentNode.children).indexOf(
+                cardList.current
+              );
+              handleMobileSwipe(index);
+            }
+          }
+        },
+        { rootMargin: '-50%' }
+      );
+      if (cardList && cardList.current) {
+        listObserver.observe(cardList.current);
+      }
+    }
+  }, []);
+
   return (
-    <div className="card-list">
+    <div className="card-list" ref={cardList}>
       <h1 className="card-list__header">{speed}</h1>
       <ul className="card-list__cards">
         {filteredCards.length > 0 ? (

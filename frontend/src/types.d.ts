@@ -33,3 +33,4 @@ type toggleCostFilter = (selectedValue: string) => void;
 type toggleRegionFilter = (selectedRegion: string) => void;
 type updateTooltip = (Event, code: string) => void;
 type updateOverlay = (code?: string) => void;
+type handleMobileSwipe = (newSwipeIndex: number) => void;
