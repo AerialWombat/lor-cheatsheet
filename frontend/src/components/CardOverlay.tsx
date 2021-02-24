@@ -4,7 +4,7 @@ interface Props {
 }
 
 const CardToolTip: React.FC<Props> = ({ code, updateOverlay }) => {
-  const fullCardImageUrl = `${process.env.PUBLIC_URL}/images/card-art/${code}.png`;
+  const fullCardImageUrl = `${process.env.PUBLIC_URL}/images/card-art/${code}.webp`;
 
   return (
     <div className="card-overlay" onClick={() => updateOverlay()}>

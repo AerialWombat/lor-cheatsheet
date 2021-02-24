@@ -7,7 +7,7 @@ interface Props {
 }
 
 const CardToolTip: React.FC<Props> = ({ code, position }) => {
-  const fullCardImageUrl = `${process.env.PUBLIC_URL}/images/card-art/${code}.png`;
+  const fullCardImageUrl = `${process.env.PUBLIC_URL}/images/card-art/${code}.webp`;
 
   const positionStyles = {
     top: `${position.y}px`,
