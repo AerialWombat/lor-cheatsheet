@@ -22,7 +22,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
 
   const [backgroundStyle, setBackgroundStyle] = useState({ background: '#333' });
   const [backgroundImageUrl] = useState<string>(
-    `${process.env.PUBLIC_URL}/images/full-art/${code}-full.png`
+    `${process.env.PUBLIC_URL}/images/full-art/${code}-full.webp`
   );
   const cardListItem = useRef<HTMLLIElement>(null);
 

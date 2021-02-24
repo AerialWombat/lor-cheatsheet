@@ -2,7 +2,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const unzipper = require('unzipper');
-const Jimp = require('jimp');
+const sharp = require('sharp');
+sharp.cache(false);
 
 const projectDir = path.resolve(__dirname, '..', './frontend');
 const setDataDir = path.resolve(projectDir, './src/assets/set-data');
@@ -244,14 +245,18 @@ async function processImages() {
 
   for (const imageFile of fullArtFiles) {
     const pathToImage = path.resolve(fullArtDir, `./${imageFile}`);
-    const image = await Jimp.read(pathToImage);
-    image.resize(280, Jimp.AUTO).quality(60).write(pathToImage);
+
+    let buffer = await sharp(pathToImage).resize({ width: 280 }).webp({ quality: 75 }).toBuffer();
+    sharp(buffer).toFile(pathToImage.replace('png', 'webp'));
+    fs.unlinkSync(pathToImage);
   }
 
   for (const imageFile of cardArtFiles) {
     const pathToImage = path.resolve(cardArtDir, `./${imageFile}`);
-    const image = await Jimp.read(pathToImage);
-    image.resize(340, Jimp.AUTO).quality(60).write(pathToImage);
+
+    let buffer = await sharp(pathToImage).resize({ width: 280 }).webp({ quality: 75 }).toBuffer();
+    sharp(buffer).toFile(pathToImage.replace('png', 'webp'));
+    fs.unlinkSync(pathToImage);
   }
 
   console.log('Images processed...');
