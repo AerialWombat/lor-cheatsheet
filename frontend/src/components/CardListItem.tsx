@@ -24,7 +24,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
   const [backgroundImageUrl] = useState<string>(
     `${process.env.PUBLIC_URL}/images/full-art/${code}-full.png`
   );
-  const cardListItem = useRef<HTMLDivElement>(null);
+  const cardListItem = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     if ('IntersectionObserver' in window) {
@@ -48,7 +48,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
   }, []);
 
   return (
-    <div
+    <li
       style={backgroundStyle}
       className={`card-list-item`}
       data-code={code}
@@ -59,7 +59,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
     >
       <span className="card-list-item__cost">{cost}</span>
       <span className="card-list-item__name">{name}</span>
-    </div>
+    </li>
   );
 };
 
