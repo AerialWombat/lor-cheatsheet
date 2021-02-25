@@ -6,9 +6,17 @@ interface Props {
 }
 
 const FilterButton: React.FC<Props> = ({ type, value, filters, clickHandler }) => {
-  const regionIconImageUrl = `${
-    process.env.PUBLIC_URL
-  }/images/icons/icon-${value.toLowerCase()}.png`;
+  let iconName;
+
+  if (value === 'Shadow Isles') {
+    iconName = 'shadowisles';
+  } else if (value === 'Piltover & Zaun') {
+    iconName = 'piltoverzaun';
+  } else {
+    iconName = value.toLowerCase();
+  }
+
+  const regionIconImageUrl = `${process.env.PUBLIC_URL}/images/icons/icon-${iconName}.png`;
 
   return (
     <div

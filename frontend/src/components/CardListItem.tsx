@@ -11,9 +11,9 @@ const regionColors: any = {
   Noxus: '194, 74, 67',
   Freljord: '90, 184, 218',
   Ionia: '220, 157, 178',
-  ShadowIsles: '9, 162, 134',
+  'Shadow Isles': '9, 162, 134',
   Bilgewater: '161, 73, 50',
-  PiltoverZaun: '234, 173, 91',
+  'Piltover & Zaun': '234, 173, 91',
   Targon: '83, 222, 217',
 };
 

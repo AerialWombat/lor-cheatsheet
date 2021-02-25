@@ -136,16 +136,16 @@ async function getSetData(setNumber) {
   });
 }
 
-function filterSpellCards() {
-  console.log('Filtering for spell cards...');
+function filterCardData() {
+  console.log('Filtering for card data...');
 
-  const spellCardCodes = [];
+  const cardCodes = [];
 
   try {
     let combinedSetData = [];
     const combinedSetDataPath = path.resolve(setDataDir, `./combined-set-data.json`);
 
-    // Filter JSON data for only spell data
+    // Filter JSON data for certain properties
     fs.readdirSync(setDataDir).forEach((file) => {
       if (file === 'combined-set-data.json' || file === 'globals-en_us.json') return;
 
@@ -158,22 +158,21 @@ function filterSpellCards() {
 
       setData.forEach((card) => {
         if (
-          card.type === 'Spell' &&
-          card.supertype !== 'Champion' && // Ignore champion spells
-          card.rarity !== 'None' // Ignore derived cards
+          ((card.type === 'Spell' && card.supertype !== 'Champion') || card.type === 'Unit') &&
+          card.collectible === true
         ) {
-          const { regionRef, cost, name, cardCode, spellSpeedRef, type } = card;
+          const { region, cost, name, cardCode, spellSpeed, type } = card;
 
           filteredSetData.push({
-            region: regionRef,
+            region,
             cost,
             name,
             code: cardCode,
-            spellSpeed: spellSpeedRef,
+            spellSpeed,
             type,
           });
 
-          spellCardCodes.push(cardCode);
+          cardCodes.push(cardCode);
         }
       });
 
@@ -188,44 +187,6 @@ function filterSpellCards() {
     // Write combined set data to file
     fs.writeFileSync(combinedSetDataPath, JSON.stringify(combinedSetData));
     console.log('Combined set data written set data directory...');
-
-    // Filter full art files for only spell art
-    fs.readdirSync(fullArtDir).forEach((imageFile) => {
-      let isSpell = false;
-
-      spellCardCodes.forEach((cardCode) => {
-        if (imageFile.includes(cardCode)) {
-          isSpell = true;
-          return;
-        }
-      });
-
-      if (!isSpell) {
-        fs.unlinkSync(path.resolve(fullArtDir, `./${imageFile}`), (error) => {
-          if (error) throw error;
-        });
-      }
-    });
-    console.log('Full art folder updated...');
-
-    // Filter card art files for only spell art
-    fs.readdirSync(cardArtDir).forEach((imageFile) => {
-      let isSpell = false;
-
-      spellCardCodes.forEach((cardCode) => {
-        if (imageFile.includes(cardCode)) {
-          isSpell = true;
-          return;
-        }
-      });
-
-      if (!isSpell) {
-        fs.unlinkSync(path.resolve(cardArtDir, `./${imageFile}`), (error) => {
-          if (error) throw error;
-        });
-      }
-    });
-    console.log('Card art folder updated...');
   } catch (error) {
     console.log(error);
   }
@@ -298,7 +259,8 @@ async function asyncInit() {
   await Promise.allSettled(setDataPromises);
 
   // Filter set data JSON and image assets for spells only
-  filterSpellCards();
+  // filterSpellCards();
+  filterCardData();
 
   // Resize and compress image assets
   await processImages();

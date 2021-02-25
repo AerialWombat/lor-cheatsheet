@@ -19,7 +19,7 @@ function usePrevious(value: number) {
 
 function App() {
   const [cards] = useState<Card[]>(cardData.sort((card1, card2) => card1.cost - card2.cost));
-  const [speeds] = useState<string[]>(['Burst', 'Fast', 'Slow']);
+  const [categories] = useState<string[]>(['Burst', 'Fast', 'Slow', 'Unit']);
   const [overlay, setOverlay] = useState<Overlay>({
     code: '',
     isVisible: false,
@@ -48,9 +48,9 @@ function App() {
     Noxus: false,
     Freljord: false,
     Ionia: false,
-    ShadowIsles: false,
+    'Shadow Isles': false,
     Bilgewater: false,
-    PiltoverZaun: false,
+    'Piltover & Zaun': false,
     Targon: false,
   });
 
@@ -98,15 +98,15 @@ function App() {
       <SwipeIndicators
         currentSwipeIndex={currentSwipeIndex}
         prevSwipeIndex={prevSwipeIndex}
-        maxSwipeIndexes={speeds.length}
+        maxSwipeIndexes={categories.length}
       />
       <div className="layout__lists">
-        {speeds.map((speed) => {
+        {categories.map((category) => {
           return (
             <CardList
-              key={speed}
+              key={category}
               cards={cards}
-              speed={speed}
+              category={category}
               costFilters={costFilters}
               regionFilters={regionFilters}
               updateTooltip={updateTooltip}
@@ -144,7 +144,7 @@ function App() {
           />
           <FilterButton
             type="region"
-            value="ShadowIsles"
+            value="Shadow Isles"
             filters={regionFilters}
             clickHandler={toggleRegionFilter}
           />
@@ -156,7 +156,7 @@ function App() {
           />
           <FilterButton
             type="region"
-            value="PiltoverZaun"
+            value="Piltover & Zaun"
             filters={regionFilters}
             clickHandler={toggleRegionFilter}
           />
