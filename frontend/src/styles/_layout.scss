@@ -26,6 +26,8 @@
   &__filters {
     height: 100%;
     box-shadow: 0 -2px 15px #111;
+    justify-self: center;
+    max-width: 95rem;
 
     .filters__row {
       height: 50%;
@@ -34,6 +36,14 @@
       div {
         border-top: 2px solid $bronze-accent;
       }
+    }
+  }
+
+  @include breakpoint-up(medium) {
+    &__filters {
+      border: 1px solid $bronze-accent;
+      border-top: 0;
+      border-bottom: 0;
     }
   }
 
