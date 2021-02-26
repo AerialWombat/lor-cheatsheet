@@ -4,28 +4,33 @@ import CardListItem from './CardListItem';
 interface Props {
   cards: Card[];
   category: string;
+  cardsWhitelist: string[];
   costFilters: costFilters;
   regionFilters: regionFilters;
   updateTooltip: updateTooltip;
   updateOverlay: updateOverlay;
-  handleMobileSwipe: any;
+  setCurrentSwipeIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CardList: React.FC<Props> = ({
   cards,
   category,
+  cardsWhitelist,
   costFilters,
   regionFilters,
   updateTooltip,
   updateOverlay,
-  handleMobileSwipe,
+  setCurrentSwipeIndex,
 }) => {
   const cardList = useRef<HTMLDivElement>(null);
   const filteredCards = cards
+    .filter((card) => cardsWhitelist.includes(card.code))
     .filter((card) => {
+      // Filter if card is a spell or unit
       if (card.type === 'Spell') return card.spellSpeed === category;
       if (card.type === 'Unit') return card.type === category;
-    }) // Filter based on speed
+      return false;
+    })
     .filter((card) => {
       // Filter based on region
       if (Object.values(regionFilters).every((filter) => filter === false)) {
@@ -59,7 +64,7 @@ const CardList: React.FC<Props> = ({
               const index = Array.from(cardList.current.parentNode.children).indexOf(
                 cardList.current
               );
-              handleMobileSwipe(index);
+              setCurrentSwipeIndex(index);
             }
           }
         },
@@ -69,43 +74,28 @@ const CardList: React.FC<Props> = ({
         listObserver.observe(cardList.current);
       }
     }
-  }, [handleMobileSwipe]);
-
-  if (
-    Object.values(regionFilters).every((filter) => filter === false) &&
-    Object.values(costFilters).every((filter) => filter === false)
-  ) {
-    return (
-      <div className="card-list" ref={cardList}>
-        <h1 className="card-list__header">{category}</h1>
-        <ul className="card-list__cards">
-          <div className="card-list__no-cards">Choose a filter</div>
-        </ul>
-      </div>
-    );
-  } else {
-    return (
-      <div className="card-list" ref={cardList}>
-        <h1 className="card-list__header">{category}</h1>
-        <ul className="card-list__cards">
-          {filteredCards.length > 0 ? (
-            filteredCards.map((card) => {
-              return (
-                <CardListItem
-                  card={card}
-                  key={card.code}
-                  updateTooltip={updateTooltip}
-                  updateOverlay={updateOverlay}
-                />
-              );
-            })
-          ) : (
-            <div className="card-list__no-cards">No matching cards.</div>
-          )}
-        </ul>
-      </div>
-    );
-  }
+  }, [setCurrentSwipeIndex]);
+  return (
+    <div className="card-list" ref={cardList}>
+      <h1 className="card-list__header">{category}</h1>
+      <ul className="card-list__cards">
+        {filteredCards.length > 0 ? (
+          filteredCards.map((card) => {
+            return (
+              <CardListItem
+                card={card}
+                key={card.code}
+                updateTooltip={updateTooltip}
+                updateOverlay={updateOverlay}
+              />
+            );
+          })
+        ) : (
+          <div className="card-list__no-cards">No matching cards.</div>
+        )}
+      </ul>
+    </div>
+  );
 };
 
 export default CardList;
