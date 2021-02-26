@@ -24,6 +24,7 @@ const SettingsMenu: React.FC<Props> = ({
         onClick={() => setSettingsIsVisible(!settingsIsVisible)}
       ></div>
       <div className={'settings-menu' + (settingsIsVisible ? ' settings-menu--visible' : '')}>
+        <p className="settings-menu__title">LoR Cheatsheet</p>
         <Whitelist
           cards={cards}
           cardsWhitelist={cardsWhitelist}
