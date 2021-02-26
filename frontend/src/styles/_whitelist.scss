@@ -1,0 +1,57 @@
+.whitelist {
+  height: 85%;
+
+  &__header {
+    display: flex;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  &__search {
+    width: 100%;
+    padding: 0.25rem;
+    margin-bottom: 1.6rem;
+    border: none;
+    border-bottom: 2px solid $bronze-accent;
+    color: $primary-color;
+    font-size: 1.6rem;
+    background-color: transparent;
+  }
+
+  &__list {
+    height: 82.5%;
+    width: 100%;
+    overflow-y: auto;
+    border: 2px solid $bronze-accent;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    margin: 0.5rem;
+    border-bottom: 1px solid $bronze-accent;
+    color: #ddd;
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    label {
+      cursor: pointer;
+    }
+
+    input[type='checkbox'] {
+      height: 2.5rem;
+      width: 2.5rem;
+      border: 2px solid $bronze-accent;
+      border-radius: 3px;
+      margin-right: 1rem;
+      cursor: pointer;
+      appearance: none;
+
+      &:checked {
+        background-color: $bronze-accent;
+      }
+    }
+  }
+}

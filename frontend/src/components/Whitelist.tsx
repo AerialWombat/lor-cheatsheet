@@ -31,19 +31,19 @@ const Whitelist: React.FC<Props> = ({ cards, cardsWhitelist, setCardsWhitelist }
       });
 
   return (
-    <div className="whitelist-settings">
-      <h2 className="whitelist-settings__header">Whitelisted Cards</h2>
+    <div className="whitelist">
+      <h2 className="whitelist__header">Whitelisted Cards</h2>
       <input
-        className="whitelist-settings__search"
+        className="whitelist__search"
         type="text"
         value={searchValue}
         placeholder="Search for cards"
         onChange={(e) => handleSearchInput(e.target.value)}
       />
-      <ul className="whitelist-settings__list">
+      <ul className="whitelist__list">
         {results.map((card) => {
           return (
-            <div className={'whitelist-settings__toggle'} key={card.code}>
+            <div className={'whitelist__toggle'} key={card.code}>
               <input
                 type="checkbox"
                 id={`${card.code}-toggle`}
