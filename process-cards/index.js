@@ -158,8 +158,9 @@ function filterCardData() {
 
       setData.forEach((card) => {
         if (
-          ((card.type === 'Spell' && card.supertype !== 'Champion') || card.type === 'Unit') &&
-          card.collectible === true
+          (card.type === 'Spell' && card.supertype !== 'Champion') ||
+          card.type === 'Unit'
+          // && card.collectible === true //* Currently no good way to determine duplicate "branching" cards. Allowing non-collectibles in case of cards like invoke
         ) {
           const { region, cost, name, cardCode, spellSpeed, type } = card;
 
@@ -185,6 +186,7 @@ function filterCardData() {
       console.log(`Set JSON updated at ${file}...`);
     });
     // Write combined set data to file
+
     fs.writeFileSync(combinedSetDataPath, JSON.stringify(combinedSetData));
     console.log('Combined set data written set data directory...');
   } catch (error) {
