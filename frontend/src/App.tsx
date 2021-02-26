@@ -98,7 +98,7 @@ function App() {
     const { width, height, left, right, top, bottom } = event.target.getClientRects()[0];
     const position = {
       x: right + width > window.innerWidth ? right - width - 250 : left + width,
-      y: bottom + 350 > window.innerHeight ? bottom - height - 300 : top + height / 2,
+      y: bottom + 375 > window.innerHeight ? bottom - height - 300 : top + height / 2,
     };
 
     if (event.type === 'mouseenter') setTooltip({ code: code, isVisible: true, position });
