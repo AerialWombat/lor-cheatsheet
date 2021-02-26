@@ -70,9 +70,10 @@
     }
   }
 
-  .filter-button {
+  .settings-toggle {
     position: absolute;
     top: 50%;
+    left: 0;
     z-index: 600;
     padding: 1rem 0.75rem;
     border-top-right-radius: 3px;

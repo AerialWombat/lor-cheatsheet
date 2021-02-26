@@ -112,6 +112,9 @@ function App() {
       )}
       {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
 
+      <div className="settings-toggle" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
+        Whitelist
+      </div>
       <SettingsMenu
         cards={cards}
         cardsWhitelist={cardsWhitelist}
@@ -124,9 +127,7 @@ function App() {
         prevSwipeIndex={prevSwipeIndex}
         maxSwipeIndexes={categories.length}
       />
-      <div className="filter-button" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
-        Whitelist
-      </div>
+
       <div className="layout__lists">
         {categories.map((category) => {
           return (

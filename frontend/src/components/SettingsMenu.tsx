@@ -18,22 +18,17 @@ const SettingsMenu: React.FC<Props> = ({
   return (
     <>
       <div
-        className={
-          'settings-menu__overlay' + (settingsIsVisible ? ' settings-menu__overlay--visible' : '')
-        }
+        className={'settings__overlay' + (settingsIsVisible ? ' settings__overlay--visible' : '')}
         onClick={() => setSettingsIsVisible(!settingsIsVisible)}
       ></div>
-      <div className={'settings-menu' + (settingsIsVisible ? ' settings-menu--visible' : '')}>
-        <p className="settings-menu__title">LoR Cheatsheet</p>
+      <div className={'settings' + (settingsIsVisible ? ' settings--visible' : '')}>
+        <p className="settings__title">LoR Cheatsheet</p>
         <Whitelist
           cards={cards}
           cardsWhitelist={cardsWhitelist}
           setCardsWhitelist={setCardsWhitelist}
         />
-        <button
-          className="settings-menu__btn"
-          onClick={() => setSettingsIsVisible(!settingsIsVisible)}
-        >
+        <button className="settings__btn" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
           Close
         </button>
       </div>
