@@ -85,5 +85,17 @@
     font-size: 1.6rem;
     font-weight: 700;
     cursor: pointer;
+
+    transition: background-color 0.1s ease-in-out;
+
+    @include breakpoint-up(medium) {
+      font-size: 2rem;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: lighten($bronze-accent, 10%);
+      }
+    }
   }
 }
