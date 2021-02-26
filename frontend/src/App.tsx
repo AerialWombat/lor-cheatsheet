@@ -4,10 +4,10 @@ import CardOverlay from './components/CardOverlay';
 import CardToolTip from './components/CardToolTip';
 import FilterButton from './components/FilterButton';
 import SwipeIndicators from './components/SwipeIndicators';
-import Whitelist from './components/Whitelist';
 
 import './styles/styles.scss';
 import cardData from './assets/set-data/combined-set-data.json';
+import SettingsMenu from './components/SettingsMenu';
 
 function usePrevious(value: number) {
   const ref = useRef<number>();
@@ -49,7 +49,6 @@ function App() {
     },
   });
   const [cardsWhitelist, setCardsWhitelist] = useStickyState(['01NX027', '01DE013'], 'whitelist');
-
   const [costFilters, setCostFilters] = useState<costFilters>({
     '-1': false,
     '2': false,
@@ -107,19 +106,16 @@ function App() {
 
   return (
     <div className="layout">
-      <div className={'settings-menu' + (settingsIsVisible ? ' settings-menu--visible' : '')}>
-        <Whitelist
-          cards={cards}
-          cardsWhitelist={cardsWhitelist}
-          setCardsWhitelist={setCardsWhitelist}
-        />
-        <button
-          className="settings-menu__btn"
-          onClick={() => setSettingsIsVisible(!settingsIsVisible)}
-        >
-          Close
-        </button>
+      <div className="filter-button" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
+        Whitelist
       </div>
+      <SettingsMenu
+        cards={cards}
+        cardsWhitelist={cardsWhitelist}
+        setCardsWhitelist={setCardsWhitelist}
+        settingsIsVisible={settingsIsVisible}
+        setSettingsIsVisible={setSettingsIsVisible}
+      />
       {cardOverlay.isVisible && (
         <CardOverlay code={cardOverlay.code} updateOverlay={updateCardOverlay} />
       )}
@@ -147,9 +143,6 @@ function App() {
         })}
       </div>
       <div className="layout__filters">
-        <div className="filters__settings" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
-          Whitelist
-        </div>
         <div className="filters__row">
           <FilterButton
             type="region"
