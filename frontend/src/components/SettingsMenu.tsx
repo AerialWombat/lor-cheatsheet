@@ -21,6 +21,7 @@ const SettingsMenu: React.FC<Props> = ({
         className={
           'settings-menu__overlay' + (settingsIsVisible ? ' settings-menu__overlay--visible' : '')
         }
+        onClick={() => setSettingsIsVisible(!settingsIsVisible)}
       ></div>
       <div className={'settings-menu' + (settingsIsVisible ? ' settings-menu--visible' : '')}>
         <Whitelist
