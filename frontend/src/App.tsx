@@ -4,6 +4,7 @@ import CardOverlay from './components/CardOverlay';
 import CardToolTip from './components/CardToolTip';
 import FilterButton from './components/FilterButton';
 import SwipeIndicators from './components/SwipeIndicators';
+import Whitelist from './components/Whitelist';
 
 import './styles/styles.scss';
 import cardData from './assets/set-data/combined-set-data.json';
@@ -17,15 +18,28 @@ function usePrevious(value: number) {
   return ref.current as number;
 }
 
+function useStickyState<T>(defaultValue: T, key: string) {
+  const [value, setValue] = useState(() => {
+    const stickyValue = window.localStorage.getItem(key);
+
+    return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue;
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
+
 function App() {
   const [cards] = useState<Card[]>(cardData.sort((card1, card2) => card1.cost - card2.cost));
   const [categories] = useState<string[]>(['Burst', 'Fast', 'Slow', 'Unit']);
-  const [overlay, setOverlay] = useState<Overlay>({
+  const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
+  const [cardOverlay, setCardOverlay] = useState<CardOverlay>({
     code: '',
     isVisible: false,
   });
-  const [currentSwipeIndex, setCurrentSwipeIndex] = useState<number>(0);
-  const prevSwipeIndex: number = usePrevious(currentSwipeIndex);
   const [toolTip, setTooltip] = useState<Tooltip>({
     code: '',
     isVisible: false,
@@ -34,6 +48,8 @@ function App() {
       y: 0,
     },
   });
+  const [cardsWhitelist, setCardsWhitelist] = useStickyState(['01NX027', '01DE013'], 'whitelist');
+
   const [costFilters, setCostFilters] = useState<costFilters>({
     '-1': false,
     '2': false,
@@ -53,6 +69,8 @@ function App() {
     'Piltover & Zaun': false,
     Targon: false,
   });
+  const [currentSwipeIndex, setCurrentSwipeIndex] = useState<number>(0);
+  const prevSwipeIndex: number = usePrevious(currentSwipeIndex);
 
   const toggleCostFilter: toggleCostFilter = (selectedValue) => {
     setCostFilters({
@@ -71,7 +89,7 @@ function App() {
   const updateCardOverlay: updateOverlay = (code) => {
     if (window.innerWidth > 661) return; // Only use overlay for mobile views
 
-    setOverlay({ code: code ? code : '', isVisible: !overlay.isVisible });
+    setCardOverlay({ code: code ? code : '', isVisible: !cardOverlay.isVisible });
   };
 
   const updateTooltip: updateTooltip = (event, code) => {
@@ -87,13 +105,24 @@ function App() {
     if (event.type === 'mouseleave') setTooltip({ code: code, isVisible: false, position });
   };
 
-  const handleMobileSwipe: handleMobileSwipe = (newSwipeIndex) => {
-    setCurrentSwipeIndex(newSwipeIndex);
-  };
-
   return (
     <div className="layout">
-      {overlay.isVisible && <CardOverlay code={overlay.code} updateOverlay={updateCardOverlay} />}
+      <div className={'settings-menu' + (settingsIsVisible ? ' settings-menu--visible' : '')}>
+        <Whitelist
+          cards={cards}
+          cardsWhitelist={cardsWhitelist}
+          setCardsWhitelist={setCardsWhitelist}
+        />
+        <button
+          className="settings-menu__btn"
+          onClick={() => setSettingsIsVisible(!settingsIsVisible)}
+        >
+          Close
+        </button>
+      </div>
+      {cardOverlay.isVisible && (
+        <CardOverlay code={cardOverlay.code} updateOverlay={updateCardOverlay} />
+      )}
       {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
       <SwipeIndicators
         currentSwipeIndex={currentSwipeIndex}
@@ -107,16 +136,20 @@ function App() {
               key={category}
               cards={cards}
               category={category}
+              cardsWhitelist={cardsWhitelist}
               costFilters={costFilters}
               regionFilters={regionFilters}
               updateTooltip={updateTooltip}
               updateOverlay={updateCardOverlay}
-              handleMobileSwipe={handleMobileSwipe}
+              setCurrentSwipeIndex={setCurrentSwipeIndex}
             />
           );
         })}
       </div>
       <div className="layout__filters">
+        <div className="filters__settings" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
+          Whitelist
+        </div>
         <div className="filters__row">
           <FilterButton
             type="region"

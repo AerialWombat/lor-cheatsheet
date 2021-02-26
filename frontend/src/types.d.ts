@@ -7,7 +7,7 @@ interface Card {
   type: string;
 }
 
-interface Overlay {
+interface CardOverlay {
   code: string;
   isVisible: boolean;
 }
