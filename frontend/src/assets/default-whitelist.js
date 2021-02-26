@@ -73,4 +73,9 @@ export const defaultWhitelist = [
   '02BW056',
   '02BW028',
   '01PZ048',
+  '03MT217T12',
+  '03MT011',
+  '03MT049',
+  '03MT043',
+  '03MT034',
 ];
