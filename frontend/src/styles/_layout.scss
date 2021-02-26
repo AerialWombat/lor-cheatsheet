@@ -14,7 +14,7 @@
       scroll-snap-type: x mandatory;
     }
 
-    @include breakpoint-up(medium) {
+    @include breakpoint-up(large) {
       flex-direction: row;
       justify-content: space-evenly;
       align-items: flex-start;
@@ -36,19 +36,6 @@
       div {
         border-top: 2px solid $bronze-accent;
       }
-    }
-
-    .filters__settings {
-      position: absolute;
-      bottom: 15%;
-      z-index: 500;
-      padding: 1rem 2rem;
-      border-top-right-radius: 3px;
-      background-color: $bronze-accent;
-      color: #222;
-      font-size: 1.4rem;
-      font-weight: 700;
-      cursor: pointer;
     }
   }
 
@@ -81,5 +68,21 @@
     .swipe-indicator {
       display: none;
     }
+  }
+
+  .filter-button {
+    position: absolute;
+    top: 50%;
+    z-index: 600;
+    padding: 1rem 0.75rem;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+    background-color: $bronze-accent;
+    color: #222;
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
   }
 }

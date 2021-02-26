@@ -17,7 +17,8 @@
   z-index: 1000;
   height: 100vh;
   width: 85vw;
-  max-width: 90rem;
+
+  max-width: 60rem;
   padding: 2rem 1.5rem;
   padding-right: 4rem;
   border-radius: 3px;
@@ -47,11 +48,17 @@
     z-index: 999;
     height: 100vh;
     width: 100vw;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    &--visible {
+      visibility: visible;
+    }
   }
 }
 
 .whitelist-settings {
-  height: 90%;
+  height: 85%;
 
   &__header {
     display: flex;

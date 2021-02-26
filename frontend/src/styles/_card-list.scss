@@ -24,7 +24,11 @@
   }
 
   @include breakpoint-up(medium) {
-    min-width: auto;
+    min-width: 33.3vw;
+  }
+
+  @include breakpoint-up(large) {
+    min-width: 0;
   }
 
   &__header {
