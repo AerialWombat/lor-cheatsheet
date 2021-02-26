@@ -107,6 +107,11 @@ function App() {
 
   return (
     <div className="layout">
+      {cardOverlay.isVisible && (
+        <CardOverlay code={cardOverlay.code} updateOverlay={updateCardOverlay} />
+      )}
+      {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
+
       <SettingsMenu
         cards={cards}
         cardsWhitelist={cardsWhitelist}
@@ -114,10 +119,6 @@ function App() {
         settingsIsVisible={settingsIsVisible}
         setSettingsIsVisible={setSettingsIsVisible}
       />
-      {cardOverlay.isVisible && (
-        <CardOverlay code={cardOverlay.code} updateOverlay={updateCardOverlay} />
-      )}
-      {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
       <SwipeIndicators
         currentSwipeIndex={currentSwipeIndex}
         prevSwipeIndex={prevSwipeIndex}
