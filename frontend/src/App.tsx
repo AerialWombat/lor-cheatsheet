@@ -3,11 +3,12 @@ import CardList from './components/CardList';
 import CardOverlay from './components/CardOverlay';
 import CardToolTip from './components/CardToolTip';
 import FilterButton from './components/FilterButton';
+import SettingsMenu from './components/SettingsMenu';
 import SwipeIndicators from './components/SwipeIndicators';
 
 import './styles/styles.scss';
 import cardData from './assets/set-data/combined-set-data.json';
-import SettingsMenu from './components/SettingsMenu';
+import { defaultWhitelist } from './assets/default-whitelist';
 
 function usePrevious(value: number) {
   const ref = useRef<number>();
@@ -48,7 +49,7 @@ function App() {
       y: 0,
     },
   });
-  const [cardsWhitelist, setCardsWhitelist] = useStickyState(['01NX027', '01DE013'], 'whitelist');
+  const [cardsWhitelist, setCardsWhitelist] = useStickyState(defaultWhitelist, 'whitelist');
   const [costFilters, setCostFilters] = useState<costFilters>({
     '-1': false,
     '2': false,
@@ -106,9 +107,6 @@ function App() {
 
   return (
     <div className="layout">
-      <div className="filter-button" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
-        Whitelist
-      </div>
       <SettingsMenu
         cards={cards}
         cardsWhitelist={cardsWhitelist}
@@ -125,6 +123,9 @@ function App() {
         prevSwipeIndex={prevSwipeIndex}
         maxSwipeIndexes={categories.length}
       />
+      <div className="filter-button" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
+        Whitelist
+      </div>
       <div className="layout__lists">
         {categories.map((category) => {
           return (
