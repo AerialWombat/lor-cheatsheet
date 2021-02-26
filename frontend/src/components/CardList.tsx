@@ -52,7 +52,8 @@ const CardList: React.FC<Props> = ({
       } else {
         return costFilters[card.cost.toString()];
       }
-    });
+    })
+    .sort((card1, card2) => card1.cost - card2.cost);
 
   // Intersection observer to check for moving between lists on mobile
   useEffect(() => {

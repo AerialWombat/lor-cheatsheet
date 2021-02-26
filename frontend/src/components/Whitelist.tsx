@@ -25,7 +25,15 @@ const Whitelist: React.FC<Props> = ({ cards, cardsWhitelist, setCardsWhitelist }
   };
 
   const results: Card[] = !searchValue
-    ? cards
+    ? cards.sort((a, b) => {
+        if (a.name > b.name) {
+          return 1;
+        } else if (a.name < b.name) {
+          return -1;
+        } else {
+          return 0;
+        }
+      })
     : cards.filter((card) => {
         return card.name.toLowerCase().includes(searchValue.toLowerCase());
       });

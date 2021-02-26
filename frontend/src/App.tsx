@@ -34,7 +34,7 @@ function useStickyState<T>(defaultValue: T, key: string) {
 }
 
 function App() {
-  const [cards] = useState<Card[]>(cardData.sort((card1, card2) => card1.cost - card2.cost));
+  const [cards] = useState<Card[]>(cardData);
   const [categories] = useState<string[]>(['Burst', 'Fast', 'Slow', 'Unit']);
   const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
   const [cardOverlay, setCardOverlay] = useState<CardOverlay>({
