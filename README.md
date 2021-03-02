@@ -1,4 +1,4 @@
-# lor-cheatsheet
+# LoR Dynamic Cheat Sheet
 A tool made to function as a dynamic form of LoR cheatsheets of cards to play around that are often created. It allows users to see lists of cards separated by either their spell speed or if they're a unit.
 ## Built With
 - Typescript
