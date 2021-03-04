@@ -15,6 +15,7 @@ const regionColors: any = {
   Bilgewater: '161, 73, 50',
   'Piltover & Zaun': '234, 173, 91',
   Targon: '83, 222, 217',
+  Shurima: '189, 124, 24',
 };
 
 const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) => {

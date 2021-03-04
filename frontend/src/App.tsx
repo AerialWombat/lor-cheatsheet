@@ -68,6 +68,7 @@ function App() {
     Bilgewater: false,
     'Piltover & Zaun': false,
     Targon: false,
+    Shurima: false,
   });
   const [currentSwipeIndex, setCurrentSwipeIndex] = useState<number>(0);
   const prevSwipeIndex: number = usePrevious(currentSwipeIndex);
@@ -192,6 +193,12 @@ function App() {
           <FilterButton
             type="region"
             value="Targon"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
+          <FilterButton
+            type="region"
+            value="Shurima"
             filters={regionFilters}
             clickHandler={toggleRegionFilter}
           />
