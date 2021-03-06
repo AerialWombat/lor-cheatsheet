@@ -59,6 +59,8 @@
   &__cards {
     display: block;
     max-height: 90%;
+    padding-right: 0.5rem;
+    overflow-x: hidden;
     overflow-y: auto;
   }
 
