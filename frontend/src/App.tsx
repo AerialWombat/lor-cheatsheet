@@ -51,7 +51,7 @@ function App() {
   });
   const [cardsWhitelist, setCardsWhitelist] = useStickyState(defaultWhitelist, 'whitelist');
   const [costFilters, setCostFilters] = useState<costFilters>({
-    '-1': false,
+    '1-': false,
     '2': false,
     '3': false,
     '4': false,
@@ -206,7 +206,7 @@ function App() {
         <div className="filters__row">
           <FilterButton
             type="cost"
-            value="-1"
+            value="1-"
             filters={costFilters}
             clickHandler={toggleCostFilter}
           />

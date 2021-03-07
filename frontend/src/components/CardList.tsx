@@ -43,9 +43,9 @@ const CardList: React.FC<Props> = ({
       // Filter based on cost
       if (Object.values(costFilters).every((filter) => filter === false)) {
         return card;
-      } else if (costFilters['-1'] && costFilters['7+']) {
+      } else if (costFilters['1-'] && costFilters['7+']) {
         return card.cost <= 1 || costFilters[card.cost.toString()] || card.cost >= 7;
-      } else if (costFilters['-1']) {
+      } else if (costFilters['1-']) {
         return card.cost <= 1 || costFilters[card.cost.toString()];
       } else if (costFilters['7+']) {
         return card.cost >= 7 || costFilters[card.cost.toString()];
