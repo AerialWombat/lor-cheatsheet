@@ -46,6 +46,7 @@ export const defaultWhitelist = [
   '01SI029',
   '01SI054',
   '01SI025',
+  '01SI049',
   '01PZ005',
   '01SI001',
   '01DE007',
