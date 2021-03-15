@@ -159,7 +159,8 @@ function filterCardData() {
       setData.forEach((card) => {
         if (
           (card.type === 'Spell' && card.supertype !== 'Champion') ||
-          card.type === 'Unit'
+          card.type === 'Unit' ||
+          card.type === 'Landmark'
           // && card.collectible === true //* Currently no good way to determine duplicate "branching" cards. Allowing non-collectibles in case of cards like invoke
         ) {
           const { region, cost, name, cardCode, spellSpeed, type } = card;
