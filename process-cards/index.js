@@ -163,7 +163,7 @@ function filterCardData() {
           card.type === 'Landmark'
           // && card.collectible === true //* Currently no good way to determine duplicate "branching" cards. Allowing non-collectibles in case of cards like invoke
         ) {
-          const { region, cost, name, cardCode, spellSpeed, type } = card;
+          const { region, cost, name, cardCode, spellSpeed, type, keywords } = card;
 
           filteredSetData.push({
             region,
@@ -172,6 +172,7 @@ function filterCardData() {
             code: cardCode,
             spellSpeed,
             type,
+            keywords,
           });
 
           cardCodes.push(cardCode);
