@@ -5,6 +5,7 @@ interface Card {
   region: string;
   spellSpeed: string;
   type: string;
+  keywords: string[];
 }
 
 interface CardOverlay {

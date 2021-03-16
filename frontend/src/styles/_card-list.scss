@@ -27,7 +27,7 @@
     min-width: 33.3vw;
   }
 
-  @include breakpoint-up(large) {
+  @include breakpoint-up(xlarge) {
     min-width: 0;
   }
 

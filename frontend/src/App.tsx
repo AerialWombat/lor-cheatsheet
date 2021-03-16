@@ -35,20 +35,10 @@ function useStickyState<T>(defaultValue: T, key: string) {
 
 function App() {
   const [cards] = useState<Card[]>(cardData);
-  const [categories] = useState<string[]>(['Burst', 'Fast', 'Slow', 'Unit']);
+  const [categories] = useState<string[]>(['Burst', 'Focus', 'Fast', 'Slow', 'Unit', 'Landmark']);
   const [settingsIsVisible, setSettingsIsVisible] = useState<boolean>(false);
-  const [cardOverlay, setCardOverlay] = useState<CardOverlay>({
-    code: '',
-    isVisible: false,
-  });
-  const [toolTip, setTooltip] = useState<Tooltip>({
-    code: '',
-    isVisible: false,
-    position: {
-      x: 0,
-      y: 0,
-    },
-  });
+  const [combineBurstFocus, setcombineBurstFocus] = useStickyState(false, 'combineBurstFocus');
+  const [combineUnitLandmark, setcombineUnitLandmark] = useStickyState(true, 'combineUnitLandmark');
   const [cardsWhitelist, setCardsWhitelist] = useStickyState(defaultWhitelist, 'whitelist');
   const [costFilters, setCostFilters] = useState<costFilters>({
     '1-': false,
@@ -69,6 +59,18 @@ function App() {
     'Piltover & Zaun': false,
     Targon: false,
     Shurima: false,
+  });
+  const [cardOverlay, setCardOverlay] = useState<CardOverlay>({
+    code: '',
+    isVisible: false,
+  });
+  const [toolTip, setTooltip] = useState<Tooltip>({
+    code: '',
+    isVisible: false,
+    position: {
+      x: 0,
+      y: 0,
+    },
   });
   const [currentSwipeIndex, setCurrentSwipeIndex] = useState<number>(0);
   const prevSwipeIndex: number = usePrevious(currentSwipeIndex);
@@ -114,10 +116,14 @@ function App() {
       {toolTip.isVisible && <CardToolTip code={toolTip.code} position={toolTip.position} />}
 
       <div className="settings-toggle" onClick={() => setSettingsIsVisible(!settingsIsVisible)}>
-        Whitelist
+        Settings
       </div>
       <SettingsMenu
         cards={cards}
+        combineBurstFocus={combineBurstFocus}
+        setCombineBurstFocus={setcombineBurstFocus}
+        combineUnitLandmark={combineUnitLandmark}
+        setCombineUnitLandmark={setcombineUnitLandmark}
         cardsWhitelist={cardsWhitelist}
         setCardsWhitelist={setCardsWhitelist}
         settingsIsVisible={settingsIsVisible}
@@ -139,6 +145,8 @@ function App() {
               cardsWhitelist={cardsWhitelist}
               costFilters={costFilters}
               regionFilters={regionFilters}
+              combineBurstFocus={combineBurstFocus}
+              combineUnitLandmark={combineUnitLandmark}
               updateTooltip={updateTooltip}
               updateOverlay={updateCardOverlay}
               setCurrentSwipeIndex={setCurrentSwipeIndex}

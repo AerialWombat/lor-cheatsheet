@@ -51,7 +51,7 @@ const Whitelist: React.FC<Props> = ({ cards, cardsWhitelist, setCardsWhitelist }
       <ul className="whitelist__list">
         {results.map((card) => {
           return (
-            <div className={'whitelist__toggle'} key={card.code}>
+            <div className="whitelist__toggle" key={card.code}>
               <input
                 type="checkbox"
                 id={`${card.code}-toggle`}
