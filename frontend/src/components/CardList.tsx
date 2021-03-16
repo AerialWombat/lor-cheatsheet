@@ -35,29 +35,26 @@ const CardList: React.FC<Props> = ({
         // Filter card based on category
         if (category === 'Fast' || category === 'Slow') {
           return card.spellSpeed === category;
-        }
-        if (category === 'Burst') {
+        } else if (category === 'Burst') {
           if (combineBurstFocus)
             return card.spellSpeed === category || card.keywords.includes('Focus');
 
           return card.spellSpeed === category && !card.keywords.includes('Focus');
-        }
-        if (category === 'Focus') {
-          if (combineBurstFocus) return;
+        } else if (category === 'Focus') {
+          if (combineBurstFocus) return {};
 
           return card.keywords.includes('Focus');
-        }
-        if (category === 'Unit') {
+        } else if (category === 'Unit') {
           if (combineUnitLandmark) return card.type === category || card.type === 'Landmark';
 
           return card.type === category;
-        }
-        if (category === 'Landmark') {
-          if (combineUnitLandmark) return;
+        } else if (category === 'Landmark') {
+          if (combineUnitLandmark) return {};
 
           return card.type === 'Landmark';
+        } else {
+          return false;
         }
-        if (category === '') return false;
       })
       .filter((card) => {
         // Filter based on region
