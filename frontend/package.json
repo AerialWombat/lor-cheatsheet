@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "pre-build": "cd ../process-cards && npm install && node ./index.js",
+    "pre-build": "cd ../process-cards && yarn install && node ./index.js",
     "build": "npm run pre-build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
