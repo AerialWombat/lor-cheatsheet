@@ -210,6 +210,12 @@ function App() {
             filters={regionFilters}
             clickHandler={toggleRegionFilter}
           />
+          <FilterButton
+            type="region"
+            value="Bandle City"
+            filters={regionFilters}
+            clickHandler={toggleRegionFilter}
+          />
         </div>
         <div className="filters__row">
           <FilterButton

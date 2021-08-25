@@ -2,7 +2,8 @@ interface Card {
   code: string;
   name: string;
   cost: number;
-  region: string;
+  mainRegion: string;
+  regions: string[];
   spellSpeed: string;
   type: string;
   keywords: string[];

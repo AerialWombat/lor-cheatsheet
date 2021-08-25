@@ -12,6 +12,8 @@ const FilterButton: React.FC<Props> = ({ type, value, filters, clickHandler }) =
     iconName = 'shadowisles';
   } else if (value === 'Piltover & Zaun') {
     iconName = 'piltoverzaun';
+  } else if (value === 'Bandle City') {
+    iconName = 'bandlecity';
   } else {
     iconName = value.toLowerCase();
   }

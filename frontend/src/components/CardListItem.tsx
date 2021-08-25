@@ -16,10 +16,11 @@ const regionColors: any = {
   'Piltover & Zaun': '234, 173, 91',
   Targon: '83, 222, 217',
   Shurima: '189, 124, 24',
+  'Bandle City': '198, 211, 35',
 };
 
 const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) => {
-  const { code, name, cost, region } = card;
+  const { code, name, cost, mainRegion } = card;
 
   const [backgroundStyle, setBackgroundStyle] = useState({ background: '#333' });
   const [backgroundImageUrl] = useState<string>(
@@ -32,7 +33,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
       const imageObserver = new IntersectionObserver((entries, observer) => {
         if (entries[0].isIntersecting) {
           setBackgroundStyle({
-            background: `radial-gradient(circle at right center, transparent 27.5%, rgba(${regionColors[region]},1) 40%),
+            background: `radial-gradient(circle at right center, transparent 27.5%, rgba(${regionColors[mainRegion]},1) 40%),
                 url(${backgroundImageUrl}) no-repeat 125% 30%/55%`,
           });
 
@@ -46,7 +47,7 @@ const CardListItem: React.FC<Props> = ({ card, updateTooltip, updateOverlay }) =
         imageObserver.observe(cardListItem.current);
       }
     }
-  }, [region, backgroundImageUrl]);
+  }, [mainRegion, backgroundImageUrl]);
 
   return (
     <li

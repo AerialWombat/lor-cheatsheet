@@ -26,7 +26,6 @@ const CardList: React.FC<Props> = ({
   updateOverlay,
   setCurrentSwipeIndex,
 }) => {
-  // console.log('rendering list');
   const cardList = useRef<HTMLDivElement>(null);
   const filteredCards = useMemo(() => {
     return cards
@@ -61,7 +60,7 @@ const CardList: React.FC<Props> = ({
         if (Object.values(regionFilters).every((filter) => filter === false)) {
           return card;
         } else {
-          return regionFilters[card.region];
+          if (regionFilters[card.regions[0]] || regionFilters[card.regions[1]]) return true;
         }
       })
       .filter((card) => {
